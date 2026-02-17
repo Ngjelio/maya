@@ -1,0 +1,38 @@
+# Maya — Antigravity Agent Rules
+# This file tells the AI agent about hardware constraints and project conventions.
+
+## Project
+Maya is a Raspberry Pi 4 smart assistant with a 3.5" LCD screen and voice interaction.
+Everything runs OFFLINE — no cloud APIs, no internet required at runtime.
+
+## Hardware (do NOT change pin assignments)
+- **Display:** Waveshare SpotPear 3.5" RPi LCD (B) — 480×320, SPI, ILI9486
+  - GPIO: 7(CE1), 8(CE0), 9(MISO), 10(MOSI), 11(SCLK), 24(DC), 25(Touch IRQ), 27(Reset)
+- **Audio:** Keyestudio ReSpeaker 2-Mic Pi HAT — WM8960 codec
+  - I2S: GPIO 18(BCLK), 19(LRCLK), 20(DIN), 21(DOUT)
+  - I2C: GPIO 2(SDA), 3(SCL) for codec
+  - Button: GPIO 17
+  - 3x APA102 LEDs (may conflict with SPI LCD — handle gracefully)
+  - ALSA card name: seeed2micvoicec
+- **Free GPIO:** 4, 5, 6, 12, 13, 16, 22, 23, 26
+- **I2C bus 1** shared between WM8960 codec and future sensors
+
+## Tech Stack
+- Python 3.11+ with asyncio
+- pygame for display (framebuffer rendering, no X server)
+- Vosk for offline speech-to-text
+- espeak-ng for text-to-speech
+- smbus2 for I2C sensors
+
+## Conventions
+- Wake word: "hey maya"
+- All config in config/settings.py
+- Sensor modules auto-detect via I2C scan
+- Alerts log to data/alerts.jsonl
+- Use async/await everywhere (asyncio event loop)
+
+## GPIO Conflict Warning
+GPIO 18 is used by BOTH LCD backlight and I2S audio clock.
+GPIO 10, 11 are used by BOTH LCD SPI and APA102 LEDs.
+The display module uses framebuffer mode to avoid SPI conflicts.
+Do NOT try to use direct SPI for the display.

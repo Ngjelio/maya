@@ -1,0 +1,37 @@
+# ═══════════════════════════════════════════════════════════
+#  Maya — Python Dependencies
+#  Hardware: RPi 4 + Waveshare 3.5" LCD (B) + ReSpeaker 2-Mic
+# ═══════════════════════════════════════════════════════════
+
+# Core
+asyncio-mqtt>=0.16       # future MQTT integration
+websockets>=12.0         # dashboard <-> backend bridge
+
+# Voice (offline, privacy-first)
+vosk>=0.3.45             # offline speech-to-text
+sounddevice>=0.4.6       # audio capture via ALSA
+PyAudio>=0.2.13          # alternative audio (ReSpeaker compat)
+
+# Display
+pygame>=2.5.0            # direct framebuffer rendering on SPI LCD
+
+# Hardware
+smbus2>=0.4.3            # I2C sensor communication
+spidev>=3.6              # SPI for LCD
+RPi.GPIO>=0.7.1          # GPIO control
+gpiozero>=2.0            # higher-level GPIO
+spidev>=3.6              # SPI interface
+
+# APA102 LEDs on ReSpeaker HAT
+apa102-pi>=2.5.0
+
+# Data
+numpy>=1.24
+
+# Utilities
+pydub>=0.25.1            # audio format conversion
+
+# Future sensors (uncomment as you add them)
+# adafruit-circuitpython-mpu6050     # fall detection
+# adafruit-circuitpython-bme280      # temp/humidity/pressure
+# max30102>=0.3                       # heart rate + SpO2

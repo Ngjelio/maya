@@ -1,0 +1,27 @@
+# Maya — Systemd Service
+# Install: sudo cp maya.service /etc/systemd/system/
+#          sudo systemctl enable maya
+#          sudo systemctl start maya
+
+[Unit]
+Description=Maya
+After=multi-user.target sound.target
+Wants=sound.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/maya
+ExecStart=/home/pi/maya/venv/bin/python3 /home/pi/maya/main.py
+Restart=on-failure
+RestartSec=10
+Environment=SDL_FBDEV=/dev/fb1
+Environment=SDL_VIDEODRIVER=fbcon
+Environment=SDL_NOMOUSE=1
+
+# Logging
+StandardOutput=append:/home/pi/maya/data/maya.log
+StandardError=append:/home/pi/maya/data/maya.log
+
+[Install]
+WantedBy=multi-user.target
